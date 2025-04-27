@@ -1,2 +1,2 @@
 # NePP_LibraryManager
-NePPの書籍を管理するためのアプリ
+NePPの書籍を管理するためのアプリのフロント側
