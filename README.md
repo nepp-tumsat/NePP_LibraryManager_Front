@@ -1,0 +1,2 @@
+# NePP_LibraryManager
+NePPの書籍を管理するためのアプリ
