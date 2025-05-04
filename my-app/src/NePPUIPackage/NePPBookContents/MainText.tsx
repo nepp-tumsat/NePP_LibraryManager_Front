@@ -5,5 +5,5 @@ type MainTextProps = {
 };
 
 export function MainText({ text }: MainTextProps) {
-    return <h1 className={styles.bookTitle}>{text}</h1>;
+    return <div className={styles.bookTitle}>{text}</div>;
 }
