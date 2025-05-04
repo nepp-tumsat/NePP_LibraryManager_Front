@@ -13,11 +13,15 @@ type NePPBookContentsUIProps = {
 
 export function NePPBookContentsUI({ imageSrc, title, description, isAvailable }: NePPBookContentsUIProps) {
     return (
-        <div className={styles.container}>
-            <MainImage src={imageSrc} alt="Book Cover" />
+        <>
+            <div className={styles.container}>
+                <div className={styles.bookImageWrapper}>
+                    <MainImage src={imageSrc} alt="Book Cover" />
+                    <StatusText isAvailable={isAvailable} />
+                </div>
+            </div>
             <MainText text={title} />
             <SubText text={description} />
-            <StatusText isAvailable={isAvailable} />
-        </div>
+        </>
     );
 }
