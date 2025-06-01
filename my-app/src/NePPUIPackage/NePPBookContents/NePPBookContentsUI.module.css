@@ -1,0 +1,48 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #ffffff;
+    padding: 16px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    width: 200px;
+    position: relative;
+}
+
+.bookImageWrapper {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    margin-bottom: 24px;
+}
+
+.bookImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 4px;
+    display: block;
+}
+
+.bookTitle {
+    font-size: 20px;
+    font-weight: bold;
+    text-align: left;
+    width: 100%;
+}
+
+
+.bookDescription {
+    font-size: 14px;
+    color: #666;
+    text-align: left;
+}
+
+.bookAvailability {
+    position: absolute;
+    bottom: -45px;
+    left: 55%;
+    width: 80px;
+    height: auto;
+}
