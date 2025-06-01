@@ -1,8 +1,13 @@
-import { NePPBookContentsUI } from './NePPUIPackage';
-import 
+import  API  from './index.tsx'
+import './App.css'
+//import NePPBookContentsUI from './NePPUIPackage';
+import * as NePPUI from './NePPUIPackage';
+import logo from './2025-05-22 (1).png';
+
 
 function App() {
-  const [count, setCount] = useState(0)
+   const rest = API()
+  console.log(rest)
     return (
         <div style={{
             padding: '40px',
@@ -10,25 +15,25 @@ function App() {
             gap: '24px',
             flexWrap: 'wrap' 
         }}>
-            <NePPBookContentsUI
+            <NePPUI.NePPBookContentsUI
                 imageSrc={logo}
                 title="タイトル1"
                 description="説明1"
                 isAvailable={true}
             />
-            <NePPBookContentsUI
+            <NePPUI.NePPBookContentsUI
                 imageSrc={logo}
                 title="タイトル2"
                 description="説明2"
                 isAvailable={false}
             />
-            <NePPBookContentsUI
+            <NePPUI.NePPBookContentsUI
                 imageSrc={logo}
                 title="タイトル3"
                 description="説明3"
                 isAvailable={true}
             />
-            <NePPBookContentsUI
+            <NePPUI.NePPBookContentsUI
                 imageSrc={logo}
                 title="タイトル4"
                 description="説明4"
@@ -38,4 +43,4 @@ function App() {
     );
 }
 
-export default App;
+export default App
