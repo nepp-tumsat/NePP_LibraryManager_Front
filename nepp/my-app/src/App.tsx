@@ -4,10 +4,10 @@ import './App.css'
 import * as NePPUI from './NePPUIPackage';
 import logo from './2025-05-22 (1).png';
 
-
 function App() {
    const rest = API()
   console.log(rest)
+
     return (
         <div style={{
             padding: '40px',
@@ -39,6 +39,7 @@ function App() {
                 description="説明4"
                 isAvailable={false}
             />
+
         </div>
     );
 }
