@@ -2,7 +2,7 @@ import  API  from './index.tsx'
 import './App.css'
 //import NePPBookContentsUI from './NePPUIPackage';
 import * as NePPUI from './NePPUIPackage';
-import logo from './2025-05-22 (1).png';
+import logo from './assets/Lemon!!!.png';
 
 
 function App() {
