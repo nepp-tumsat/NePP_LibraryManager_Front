@@ -11,16 +11,17 @@ function App() {
   
 
     return (
-        <div style={{
-            padding: '40px',
+        <div  style={{
+            padding: '20px',
             display: 'flex',
             gap: '54px',
-            flexWrap: 'wrap' 
+            flexWrap: 'nowrap'
+            
         }}>
             <NePPUI.NePPBookContentsUI
                  imageSrc="https://udobiaabiukosfucivbk.supabase.co/storage/v1/object/public/booksimage/World%20Engineer.jpg"
                  title="世界一流エンジニアの思考法"
-                description="マイクロソフトに入った社員の体験をもとに、一流のエンジニアに必要な要素を学べます"
+                description=""
                 isAvailable={true}
             />
              <NePPUI.NePPBookContentsUI

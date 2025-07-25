@@ -1,20 +1,21 @@
 .container {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
     background: #ffffff;
     padding: 16px;
     border: 1px solid #ddd;
     border-radius: 8px;
-    width: 200px;
+    width: 400px;
     position: relative;
+    gap: 20px
 }
 
 .bookImageWrapper {
     position: relative;
     width: 100%;
     aspect-ratio: 1 / 1;
-    margin-bottom: 24px;
+    margin-bottom: 0px;
 }
 
 .bookImage {
@@ -37,6 +38,7 @@
     font-size: 14px;
     color: #666;
     text-align: left;
+    word-break: break-word;
 }
 
 .bookAvailability {
