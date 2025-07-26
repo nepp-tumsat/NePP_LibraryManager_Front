@@ -14,8 +14,9 @@ function App() {
         <div  style={{
             padding: '20px',
             display: 'flex',
-            gap: '54px',
+            gap: '20px',
             flexWrap: 'nowrap'
+            
             
         }}>
             <NePPUI.NePPBookContentsUI
@@ -30,7 +31,19 @@ function App() {
                description=""
                isAvailable={false}
              />
-
+             <NePPUI.NePPBookContentsUI
+              imageSrc="https://udobiaabiukosfucivbk.supabase.co/storage/v1/object/public/booksimage//issue_begin.webp"
+               title="issueからはじめよ"
+               description=""
+               isAvailable={false}
+             />
+             <NePPUI.NePPBookContentsUI
+              imageSrc="https://udobiaabiukosfucivbk.supabase.co/storage/v1/object/public/booksimage//Unity2018.jpg"
+               title="Unity2018入門"
+               description=""
+               isAvailable={false}
+             />
+             
         </div>
     );
 }

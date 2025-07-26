@@ -6,9 +6,9 @@
     padding: 16px;
     border: 1px solid #ddd;
     border-radius: 8px;
-    width: 400px;
     position: relative;
     gap: 20px
+    width calc((100% - 32px) / 3)
 }
 
 .bookImageWrapper {
