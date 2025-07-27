@@ -40,7 +40,7 @@ function App() {
              <NePPUI.NePPBookContentsUI
               imageSrc="https://udobiaabiukosfucivbk.supabase.co/storage/v1/object/public/booksimage//Unity2018.jpg"
                title="Unity2018入門"
-               description=""
+               description="aaaaaaaaaa"
                isAvailable={false}
              />
              
