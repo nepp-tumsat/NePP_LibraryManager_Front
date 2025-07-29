@@ -11,16 +11,18 @@ function App() {
   
 
     return (
-        <div style={{
-            padding: '40px',
+        <div  style={{
+            padding: '20px',
             display: 'flex',
-            gap: '54px',
-            flexWrap: 'wrap' 
+            gap: '20px',
+            flexWrap: 'nowrap'
+            
+            
         }}>
             <NePPUI.NePPBookContentsUI
                  imageSrc="https://udobiaabiukosfucivbk.supabase.co/storage/v1/object/public/booksimage/World%20Engineer.jpg"
                  title="世界一流エンジニアの思考法"
-                description="マイクロソフトに入った社員の体験をもとに、一流のエンジニアに必要な要素を学べます"
+                description=""
                 isAvailable={true}
             />
              <NePPUI.NePPBookContentsUI
@@ -29,7 +31,19 @@ function App() {
                description=""
                isAvailable={false}
              />
-
+             <NePPUI.NePPBookContentsUI
+              imageSrc="https://udobiaabiukosfucivbk.supabase.co/storage/v1/object/public/booksimage//issue_begin.webp"
+               title="issueからはじめよ"
+               description=""
+               isAvailable={false}
+             />
+             <NePPUI.NePPBookContentsUI
+              imageSrc="https://udobiaabiukosfucivbk.supabase.co/storage/v1/object/public/booksimage//Unity2018.jpg"
+               title="Unity2018入門"
+               description="aaaaaaaaaa"
+               isAvailable={false}
+             />
+             
         </div>
     );
 }
