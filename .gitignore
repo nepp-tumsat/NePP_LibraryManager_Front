@@ -24,7 +24,7 @@ dist-ssr
 *.sw?
 
 # ビルド成果物
-dist/
+dist/assets
 public/
 
 # 環境変数
@@ -33,3 +33,5 @@ public/
 
 # その他
 node_modules/
+.firebase/
+
