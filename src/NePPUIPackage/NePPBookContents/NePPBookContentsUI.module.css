@@ -7,13 +7,13 @@
     border: 1px solid #ddd;
     border-radius: 8px;
     position: relative;
-    gap: 20px
-    width calc((100% - 32px) / 3)
+    gap: 20px;
+    height : 120px;
 }
 
 .bookImageWrapper {
     position: relative;
-    width: 100%;
+    width: 100px;
     aspect-ratio: 1 / 1;
     margin-bottom: 0px;
 }
