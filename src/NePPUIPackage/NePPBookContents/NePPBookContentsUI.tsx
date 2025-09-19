@@ -9,9 +9,20 @@ type NePPBookContentsUIProps = {
     title: string;
     description: string;
     isAvailable: boolean; 
+    onCardClick? : () => void;
 };
 
-export function NePPBookContentsUI({ imageSrc, title, description, isAvailable }: NePPBookContentsUIProps) {
+function testFunc(){
+    console.log("MainText がクリックされました（デフォルト処理）");
+}
+
+export function NePPBookContentsUI({ imageSrc, 
+                                       title, 
+                                       description, 
+                                       isAvailable, 
+                                       onCardClick = testFunc}: 
+                                   NePPBookContentsUIProps) 
+{
     return (
         <>
             <div className={styles.container}>
@@ -20,7 +31,7 @@ export function NePPBookContentsUI({ imageSrc, title, description, isAvailable }
                     <StatusText isAvailable={isAvailable} />
                 </div>
             </div>
-            <MainText text={title} />
+            <MainText text={title} onTextClick={onCardClick} />
             <SubText text={description} />
         </>
     );
