@@ -4,7 +4,7 @@
     align-items: center;
     background: #ffffff;
     padding: 16px;
-    border: 1px solid #ddd;
+    
     border-radius: 8px;
     position: relative;
     gap: 20px;
@@ -15,7 +15,7 @@
     position: relative;
     width: 100px;
     aspect-ratio: 1 / 1;
-    margin-bottom: 0px;
+    margin-bottom: 1px;
 }
 
 .bookImage {
@@ -24,6 +24,13 @@
     object-fit: cover;
     border-radius: 4px;
     display: block;
+    cursor: pointer;
+    transition: transform 1s cubic-bezier(.18,1.87,.38,.89);
+    transform-origin: center;
+}
+
+.bookImage:hover{
+    transform: scale(1.2);   
 }
 
 .bookTitle {
@@ -31,6 +38,11 @@
     font-weight: bold;
     text-align: left;
     width: 120px;
+    cursor: pointer;
+}
+
+.bookTitle:hover {
+    text-decoration: underline;
 }
 
 
@@ -47,4 +59,8 @@
     left: 55%;
     width: 80px;
     height: auto;
+}
+
+@media (prefers-reduced-motion: reduce){
+    
 }
