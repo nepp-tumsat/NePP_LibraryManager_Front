@@ -13,7 +13,7 @@ type NePPBookContentsUIProps = {
 };
 
 function testFunc(){
-    console.log("MainText がクリックされました（デフォルト処理）");
+    console.log("NePPBookContentsUIがクリックされました（デフォルト処理）");
 }
 
 export function NePPBookContentsUI({ imageSrc, 
@@ -27,7 +27,7 @@ export function NePPBookContentsUI({ imageSrc,
         <>
             <div className={styles.container}>
                 <div className={styles.bookImageWrapper}>
-                    <MainImage src={imageSrc} alt="Book Cover" />
+                    <MainImage src={imageSrc} alt="Book Cover" onImageClick={onCardClick}/>
                     <StatusText isAvailable={isAvailable} />
                 </div>
             </div>
