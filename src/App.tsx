@@ -18,16 +18,29 @@ import * as NePPUI from './NePPUIPackage';
       }
       fetchData();
   },[])
+
+    const handleToggle = (id: number) => {
+    setBooks((prevBooks) =>
+      prevBooks.map((book) =>
+        book.id === id ? { ...book, isAvailable: !book.isAvailable } : book
+      )
+    );
+  };
+  console.log(handleToggle);
+
+
    return (  
     <div
       style={{
         padding: '20px',
         display: 'flex',
-        gap: '20px',
+        gap: '100px',
         flexWrap: 'nowrap', 
       }}
     >
       {books.map((book) => (
+
+         <div key={book.id} onClick={() => handleToggle(book.id)}>
         <NePPUI.NePPBookContentsUI
           key={book.id} 
           title={book.title}
@@ -35,6 +48,7 @@ import * as NePPUI from './NePPUIPackage';
           description={book.description}
           isAvailable={book.isAvailable}
         />
+        </div>
         
       ))}
     </div>
