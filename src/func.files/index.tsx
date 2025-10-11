@@ -1,9 +1,10 @@
-import axios from "axios"
-
+import axios from "axios";
 
 async function API() {
   try {
-    const response = await axios.get('https://nepp-librarymanager-backend.onrender.com/books');
+    const response = await axios.get(
+      "https://nepp-librarymanager-backend.onrender.com/books"
+    );
     const data = response.data;
 
     if (data) {
@@ -12,10 +13,10 @@ async function API() {
       console.log("タスクは未完了です。");
     }
 
-    return data; 
+    return data;
   } catch (error) {
     console.error(" API取得エラー:", error);
-    return null; 
+    return null;
   }
 }
 

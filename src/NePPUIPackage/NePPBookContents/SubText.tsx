@@ -1,9 +1,9 @@
-import styles from './NePPBookContentsUI.module.css';
+import styles from "./NePPBookContentsUI.module.css";
 
 type SubTextProps = {
-    text: string;
+  text: string;
 };
 
 export function SubText({ text }: SubTextProps) {
-    return <p className={styles.bookDescription}>{text}</p>;
+  return <p className={styles.bookDescription}>{text}</p>;
 }
