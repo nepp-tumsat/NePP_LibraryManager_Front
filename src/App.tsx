@@ -4,8 +4,6 @@ import './App.css'
 //import NePPBookContentsUI from './NePPUIPackage';
 import * as NePPUI from './NePPUIPackage';
 
-
-
  function App() {
   const [books , setBooks] = useState<any[]>([]);
 
@@ -26,9 +24,6 @@ import * as NePPUI from './NePPUIPackage';
       )
     );
   };
-  console.log(handleToggle);
-
-
    return (  
     <div
       style={{
@@ -54,6 +49,4 @@ import * as NePPUI from './NePPUIPackage';
     </div>
   );
 }
-
-
 export default App
