@@ -18,13 +18,20 @@
 - デザインツール：Figma（UI設計ベース）
 
 # クローン
+```
 git clone https://github.com/nepp-tumsat/NePP_LibraryManager_Front.git
+```
 
 # ディレクトリ移動
+```
 cd NePP_LibraryManager_Front
+```
 
 # パッケージインストール
+```
 npm install
-
+```
 # 開発環境起動
+```
 npm run dev
+```
