@@ -1,0 +1,239 @@
+.email-auth-page,
+.email-auth-page * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.email-auth-page {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
+        "Helvetica", "Arial", sans-serif;
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(to bottom right, #eff6ff, #e0e7ff);
+    color: #0f172a;
+    padding: 24px 0;
+}
+
+.email-auth-page .container {
+    width: 100%;
+    max-width: 448px;
+    padding: 0 24px;
+}
+
+.email-auth-page .card {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+        0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    padding: 32px;
+}
+
+.email-auth-page .header {
+    text-align: center;
+    margin-bottom: 32px;
+}
+
+.email-auth-page .icon-circle {
+    width: 64px;
+    height: 64px;
+    background: #e0e7ff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 16px;
+}
+
+.email-auth-page .icon {
+    width: 32px;
+    height: 32px;
+    color: #4f46e5;
+}
+
+.email-auth-page h1 {
+    color: #0f172a;
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.email-auth-page .subtitle {
+    color: #475569;
+    font-size: 14px;
+}
+
+.email-auth-page .step-indicator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 32px;
+}
+
+.email-auth-page .step-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.email-auth-page .step-number {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    transition: all 0.3s;
+}
+
+.email-auth-page .step-number.active {
+    background: #4f46e5;
+    color: white;
+}
+
+.email-auth-page .step-number.inactive {
+    background: #e2e8f0;
+    color: #94a3b8;
+}
+
+.email-auth-page .step-line {
+    width: 48px;
+    height: 2px;
+    transition: all 0.3s;
+}
+
+.email-auth-page .step-line.active {
+    background: #4f46e5;
+}
+
+.email-auth-page .step-line.inactive {
+    background: #e2e8f0;
+}
+
+.email-auth-page .form-group {
+    margin-bottom: 24px;
+}
+
+.email-auth-page label {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    color: #0f172a;
+    margin-bottom: 8px;
+}
+
+.email-auth-page input[type="email"] {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: all 0.2s;
+}
+
+.email-auth-page input[type="email"]:focus {
+    outline: none;
+    border-color: #4f46e5;
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
+.email-auth-page .helper-text {
+    font-size: 12px;
+    color: #64748b;
+    margin-top: 8px;
+}
+
+.email-auth-page .button {
+    width: 100%;
+    padding: 12px 24px;
+    background: #4f46e5;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.email-auth-page .button:hover {
+    background: #4338ca;
+}
+
+.email-auth-page .button:disabled {
+    background: #cbd5e1;
+    cursor: not-allowed;
+}
+
+.email-auth-page .info-box {
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    border-radius: 8px;
+    padding: 12px;
+    font-size: 14px;
+    margin-bottom: 16px;
+}
+
+.email-auth-page .info-box p {
+    color: #1e3a8a;
+    word-break: break-all;
+}
+
+.email-auth-page .otp-container {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin: 12px 0 24px;
+}
+
+.email-auth-page .otp-input {
+    width: 48px;
+    height: 56px;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 24px;
+    font-weight: 600;
+    transition: all 0.2s;
+}
+
+.email-auth-page .otp-input:focus {
+    outline: none;
+    border-color: #4f46e5;
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
+.email-auth-page .link-button {
+    width: 100%;
+    background: none;
+    border: none;
+    color: #4f46e5;
+    font-size: 14px;
+    cursor: pointer;
+    padding: 8px;
+    transition: all 0.2s;
+}
+
+.email-auth-page .link-button:hover {
+    color: #4338ca;
+    text-decoration: underline;
+}
+
+.email-auth-page .link-button.secondary {
+    color: #475569;
+}
+
+.email-auth-page .link-button.secondary:hover {
+    color: #334155;
+}
+
+.email-auth-page .button-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 16px;
+}
