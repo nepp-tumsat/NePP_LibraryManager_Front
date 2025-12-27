@@ -12,7 +12,7 @@ const nodeEnv =
 
 export const API_BASE = viteEnv?.VITE_API_URL ?? nodeEnv ?? "/api";
 
-export async function getMe() {
+export async function getAuthInfo() {
     const res = await fetch(`${API_BASE}/me`, {
         method: "GET",
         credentials: "include",

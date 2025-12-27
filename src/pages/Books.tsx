@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { GetBooks } from "../API/index.tsx";
+import { GetBooks } from "../API/book.tsx";
 //import NePPBookContentsUI from './NePPUIPackage';
 import * as NePPUI from "../NePPUIPackage"; // Adjusted the path to the correct location
 
