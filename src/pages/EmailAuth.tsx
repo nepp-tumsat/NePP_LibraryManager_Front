@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { API_BASE } from "../API/auth";
 import { csrfHeaders } from "../csrf";
 import "./email-auth.css";
@@ -8,6 +8,15 @@ function EmailAuth() {
     const [email, setEmail] = useState("");
     const [isSending, setIsSending] = useState(false);
     const [error, setError] = useState<string | null>(null);
+    const [cooldown, setCooldown] = useState(0);
+
+    useEffect(() => {
+        if (cooldown <= 0) return;
+        const id = window.setInterval(() => {
+            setCooldown((current) => (current > 0 ? current - 1 : 0));
+        }, 1000);
+        return () => window.clearInterval(id);
+    }, [cooldown]);
 
     return (
         <div className="email-auth-page">
@@ -46,6 +55,7 @@ function EmailAuth() {
                         <form
                             onSubmit={async (event) => {
                                 event.preventDefault();
+                                if (isSending || cooldown > 0) return;
                                 setError(null);
                                 setIsSending(true);
                                 try {
@@ -70,6 +80,7 @@ function EmailAuth() {
                                     }
 
                                     setIsSent(true);
+                                    setCooldown(10);
                                 } catch (err) {
                                     setError(
                                         err instanceof Error
@@ -100,8 +111,16 @@ function EmailAuth() {
                             {error ? (
                                 <p className="helper-text">{error}</p>
                             ) : null}
-                            <button type="submit" className="button">
-                                {isSending ? "送信中..." : "メールを送信"}
+                            <button
+                                type="submit"
+                                className="button"
+                                disabled={isSending || cooldown > 0}
+                            >
+                                {isSending
+                                    ? "送信中..."
+                                    : cooldown > 0
+                                      ? `再送信まで${cooldown}秒`
+                                      : "メールを送信"}
                             </button>
                         </form>
                     </div>
