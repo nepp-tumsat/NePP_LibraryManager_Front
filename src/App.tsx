@@ -1,6 +1,6 @@
 import { JSX, useEffect, useState } from "react";
 import { Routes, Route, Navigate, Outlet } from "react-router-dom";
-import { getMe } from "./API/auth";
+import { getAuthInfo } from "./API/auth";
 import Books from "./pages/Books";
 import NewBook from "./pages/NewBook";
 import EmailAuth from "./pages/EmailAuth";
@@ -13,7 +13,7 @@ function RequireAuth({ children }: { children: JSX.Element }) {
 
     useEffect(() => {
         let isMounted = true;
-        getMe()
+        getAuthInfo()
             .then((user) => {
                 if (!isMounted) return;
                 setStatus(user ? "authed" : "guest");
