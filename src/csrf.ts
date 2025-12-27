@@ -16,7 +16,8 @@ export function getCsrfToken(): string | null {
             key === "XSRF-TOKEN" ||
             key === "CSRF-TOKEN"
         ) {
-            return decodeURIComponent(rest.join("="));
+            const value = decodeURIComponent(rest.join("=")).trim();
+            if (value) return value;
         }
     }
 
