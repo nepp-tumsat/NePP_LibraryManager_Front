@@ -13,7 +13,7 @@ const nodeEnv =
 export const API_BASE = viteEnv?.VITE_API_URL ?? nodeEnv ?? "/api";
 
 export async function getAuthInfo() {
-    const res = await fetch(`${API_BASE}/me`, {
+    const res = await fetch(`${API_BASE}/session`, {
         method: "GET",
         credentials: "include",
     });
@@ -22,7 +22,7 @@ export async function getAuthInfo() {
 }
 
 export async function logout() {
-    await fetch(`${API_BASE}/logout`, {
+    await fetch(`${API_BASE}/session`, {
         method: "DELETE",
         headers: {
             ...csrfHeaders(),
