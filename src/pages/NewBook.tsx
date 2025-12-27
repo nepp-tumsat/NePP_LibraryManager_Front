@@ -169,13 +169,15 @@ export default function NewBook() {
         (e: React.FormEvent) => {
             e.preventDefault();
 
+            const coverUrl = form.coverFile
+                ? URL.createObjectURL(form.coverFile)
+                : "";
             PostBook({
                 title: form.title,
-                cover_image_url: form.coverFile
-                    ? URL.createObjectURL(form.coverFile)
-                    : "",
+                cover_image_url: coverUrl,
                 description: form.description,
             });
+            if (coverUrl) URL.revokeObjectURL(coverUrl);
             console.log("Add Book:", form);
             alert("Submitted (demo). Check console.");
         },
