@@ -1,8 +1,11 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { GetBooks } from "../API/book.tsx";
+import { supabase } from "../supabaseClient";
 //import NePPBookContentsUI from './NePPUIPackage';
 import * as NePPUI from "../NePPUIPackage"; // Adjusted the path to the correct location
+
+const BUCKET_NAME = "booksimage";
 
 function Books() {
     const [books, setBooks] = useState<any[]>([]);
@@ -12,7 +15,25 @@ function Books() {
         const fetchData = async () => {
             const result = await GetBooks();
             if (result) {
-                setBooks(result);
+                if (
+                    !import.meta.env.VITE_SUPABASE_URL ||
+                    !import.meta.env.VITE_SUPABASE_ANON_KEY
+                ) {
+                    setBooks(result);
+                    return;
+                }
+
+                const withCoverUrls = result.map((book: any) => {
+                    if (!book.cover_image_url) return book;
+                    const { data } = supabase.storage
+                        .from(BUCKET_NAME)
+                        .getPublicUrl(book.cover_image_url);
+                    return {
+                        ...book,
+                        cover_image_url: data.publicUrl,
+                    };
+                });
+                setBooks(withCoverUrls);
             }
         };
         fetchData();
