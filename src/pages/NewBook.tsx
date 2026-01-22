@@ -1,5 +1,6 @@
 import React, { useCallback, useMemo, useRef, useState } from "react";
 import { PostBook } from "../API/book";
+import { supabase } from "../supabaseClient";
 
 type BookFormState = {
     title: string;
@@ -36,12 +37,14 @@ const TextInput = ({
     onChange,
     placeholder,
     inputMode,
+    disabled,
     type = "text",
 }: {
     value: string;
     onChange: (v: string) => void;
     placeholder?: string;
     inputMode?: React.HTMLAttributes<HTMLInputElement>["inputMode"];
+    disabled?: boolean;
     type?: React.InputHTMLAttributes<HTMLInputElement>["type"];
 }) => (
     <input
@@ -50,6 +53,7 @@ const TextInput = ({
         placeholder={placeholder}
         inputMode={inputMode}
         type={type}
+        disabled={disabled}
         className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm text-gray-900 outline-none transition focus:border-gray-300 focus:ring-2 focus:ring-gray-100"
     />
 );
@@ -58,16 +62,19 @@ const TextArea = ({
     value,
     onChange,
     placeholder,
+    disabled,
 }: {
     value: string;
     onChange: (v: string) => void;
     placeholder?: string;
+    disabled?: boolean;
 }) => (
     <textarea
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
         rows={6}
+        disabled={disabled}
         className="w-full resize-none rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm text-gray-900 outline-none transition focus:border-gray-300 focus:ring-2 focus:ring-gray-100"
     />
 );
@@ -116,6 +123,8 @@ export default function NewBook() {
 
     const fileInputRef = useRef<HTMLInputElement | null>(null);
     const [isDragging, setIsDragging] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [submitError, setSubmitError] = useState("");
 
     const coverMeta = useMemo(() => {
         if (!form.coverFile) return null;
@@ -127,64 +136,106 @@ export default function NewBook() {
         <K extends keyof BookFormState>(key: K, value: BookFormState[K]) => {
             setForm((prev) => ({ ...prev, [key]: value }));
         },
-        []
+        [],
     );
 
     const openFilePicker = useCallback(() => {
+        if (isSubmitting) return;
         fileInputRef.current?.click();
-    }, []);
+    }, [isSubmitting]);
 
     const onSelectFile = useCallback(
         (file: File | null) => {
+            if (isSubmitting) return;
             setField("coverFile", file);
         },
-        [setField]
+        [isSubmitting, setField],
     );
 
     const handleDrop = useCallback(
         (e: React.DragEvent) => {
             e.preventDefault();
             e.stopPropagation();
+            if (isSubmitting) return;
             setIsDragging(false);
 
             const file = e.dataTransfer.files?.[0] ?? null;
             if (file) onSelectFile(file);
         },
-        [onSelectFile]
+        [isSubmitting, onSelectFile],
     );
 
-    const handleDragOver = useCallback((e: React.DragEvent) => {
-        e.preventDefault();
-        e.stopPropagation();
-        setIsDragging(true);
-    }, []);
+    const handleDragOver = useCallback(
+        (e: React.DragEvent) => {
+            e.preventDefault();
+            e.stopPropagation();
+            if (isSubmitting) return;
+            setIsDragging(true);
+        },
+        [isSubmitting],
+    );
 
-    const handleDragLeave = useCallback((e: React.DragEvent) => {
-        e.preventDefault();
-        e.stopPropagation();
-        setIsDragging(false);
-    }, []);
+    const handleDragLeave = useCallback(
+        (e: React.DragEvent) => {
+            e.preventDefault();
+            e.stopPropagation();
+            if (isSubmitting) return;
+            setIsDragging(false);
+        },
+        [isSubmitting],
+    );
 
     const onSubmit = useCallback(
         async (e: React.FormEvent) => {
             e.preventDefault();
+            setIsSubmitting(true);
+            setSubmitError("");
 
-            const coverUrl = form.coverFile
-                ? URL.createObjectURL(form.coverFile)
-                : "";
             try {
+                if (
+                    !import.meta.env.VITE_SUPABASE_URL ||
+                    !import.meta.env.VITE_SUPABASE_ANON_KEY
+                ) {
+                    throw new Error("Supabase config is missing.");
+                }
+
+                let coverPath = "";
+                if (form.coverFile) {
+                    const bucketName = "booksimage";
+                    const fileExt = form.coverFile.name.split(".").pop();
+                    const safeExt = fileExt ? `.${fileExt}` : "";
+                    const randomId =
+                        typeof crypto !== "undefined" && "randomUUID" in crypto
+                            ? crypto.randomUUID()
+                            : `${Date.now()}-${Math.random()
+                                  .toString(16)
+                                  .slice(2)}`;
+                    const filePath = `${randomId}${safeExt}`;
+
+                    const { error: uploadError } = await supabase.storage
+                        .from(bucketName)
+                        .upload(filePath, form.coverFile, {
+                            upsert: false,
+                        });
+                    if (uploadError) throw uploadError;
+
+                    coverPath = filePath;
+                }
+
                 await PostBook({
                     title: form.title,
-                    cover_image_url: coverUrl,
+                    cover_image_url: coverPath,
                     description: form.description,
                 });
+                alert("Submitted (demo). Check console.");
+            } catch (error) {
+                setSubmitError("送信に失敗しました。再度お試しください。");
+                console.error("Submit error:", error);
             } finally {
-                if (coverUrl) URL.revokeObjectURL(coverUrl);
+                setIsSubmitting(false);
             }
-            console.log("Add Book:", form);
-            alert("Submitted (demo). Check console.");
         },
-        [form]
+        [form],
     );
 
     return (
@@ -226,6 +277,7 @@ export default function NewBook() {
                                 value={form.title}
                                 onChange={(v) => setField("title", v)}
                                 placeholder="Enter book title"
+                                disabled={isSubmitting}
                             />
                         </div>
                     </section>
@@ -262,6 +314,7 @@ export default function NewBook() {
                                     <div className="mt-6 flex items-center justify-center">
                                         <button
                                             type="button"
+                                            disabled={isSubmitting}
                                             onClick={(e) => {
                                                 e.stopPropagation();
                                                 openFilePicker();
@@ -280,6 +333,7 @@ export default function NewBook() {
                                             </span>
                                             <button
                                                 type="button"
+                                                disabled={isSubmitting}
                                                 className="ml-3 text-xs font-semibold text-gray-700 underline underline-offset-2 hover:text-gray-900"
                                                 onClick={(e) => {
                                                     e.stopPropagation();
@@ -299,9 +353,10 @@ export default function NewBook() {
                                     className="hidden"
                                     onChange={(e) =>
                                         onSelectFile(
-                                            e.target.files?.[0] ?? null
+                                            e.target.files?.[0] ?? null,
                                         )
                                     }
+                                    disabled={isSubmitting}
                                 />
                             </div>
                         </div>
@@ -318,6 +373,7 @@ export default function NewBook() {
                                     value={form.author}
                                     onChange={(v) => setField("author", v)}
                                     placeholder="Enter author's name"
+                                    disabled={isSubmitting}
                                 />
                             </div>
 
@@ -327,6 +383,7 @@ export default function NewBook() {
                                     value={form.description}
                                     onChange={(v) => setField("description", v)}
                                     placeholder=""
+                                    disabled={isSubmitting}
                                 />
                             </div>
 
@@ -337,6 +394,7 @@ export default function NewBook() {
                                     onChange={(v) => setField("pageCount", v)}
                                     placeholder="Enter number of pages"
                                     inputMode="numeric"
+                                    disabled={isSubmitting}
                                 />
                             </div>
 
@@ -347,6 +405,7 @@ export default function NewBook() {
                                     onChange={(v) => setField("price", v)}
                                     placeholder="Enter price"
                                     inputMode="decimal"
+                                    disabled={isSubmitting}
                                 />
                             </div>
 
@@ -359,6 +418,7 @@ export default function NewBook() {
                                     }
                                     placeholder="YYYY-MM-DD"
                                     type="date"
+                                    disabled={isSubmitting}
                                 />
                             </div>
                         </div>
@@ -368,11 +428,17 @@ export default function NewBook() {
                     <div className="flex justify-end">
                         <button
                             type="submit"
+                            disabled={isSubmitting}
                             className="rounded-full bg-gray-100 px-6 py-3 text-sm font-semibold text-gray-900 ring-1 ring-gray-200 transition hover:bg-gray-200"
                         >
-                            Add Book
+                            {isSubmitting ? "Submitting..." : "Add Book"}
                         </button>
                     </div>
+                    {submitError ? (
+                        <div className="text-sm text-red-600">
+                            {submitError}
+                        </div>
+                    ) : null}
                 </form>
             </main>
         </div>
