@@ -24,8 +24,12 @@ export async function GetBooks() {
 
 export async function PostBook(book: {
     title: string;
+    author: string;
     cover_image_url: string;
     description: string;
+    page_count: string;
+    price: string;
+    published_date: string;
 }) {
     try {
         const response = await axios.post(

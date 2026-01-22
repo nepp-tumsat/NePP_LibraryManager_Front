@@ -12,6 +12,10 @@ type BookFormState = {
     coverFile: File | null;
 };
 
+const BUCKET_NAME = "booksimage";
+const MAX_COVER_BYTES = 5 * 1024 * 1024;
+const ALLOWED_COVER_TYPES = ["image/jpeg", "image/png", "image/webp", "image/gif"];
+
 const NavItem = ({ label, active }: { label: string; active?: boolean }) => {
     return (
         <a
@@ -199,9 +203,24 @@ export default function NewBook() {
                     throw new Error("Supabase config is missing.");
                 }
 
+                if (form.coverFile) {
+                    if (!ALLOWED_COVER_TYPES.includes(form.coverFile.type)) {
+                        setSubmitError(
+                            "JPEG/PNG/WebP/GIF形式の画像のみ対応しています。"
+                        );
+                        setIsSubmitting(false);
+                        return;
+                    }
+                    if (form.coverFile.size > MAX_COVER_BYTES) {
+                        setSubmitError("画像サイズは5MB以下にしてください。");
+                        setIsSubmitting(false);
+                        return;
+                    }
+                }
+
                 let coverPath = "";
                 if (form.coverFile) {
-                    const bucketName = "booksimage";
+                    const bucketName = BUCKET_NAME;
                     const fileExt = form.coverFile.name.split(".").pop();
                     const safeExt = fileExt ? `.${fileExt}` : "";
                     const randomId =
@@ -224,8 +243,12 @@ export default function NewBook() {
 
                 await PostBook({
                     title: form.title,
+                    author: form.author,
                     cover_image_url: coverPath,
                     description: form.description,
+                    page_count: form.pageCount,
+                    price: form.price,
+                    published_date: form.publishedDate,
                 });
                 alert("Submitted (demo). Check console.");
             } catch (error) {
