@@ -1,59 +1,63 @@
-import { useState,useEffect } from "react";
-import  API  from './func.files/index.tsx'
-import './App.css'
-//import NePPBookContentsUI from './NePPUIPackage';
-import * as NePPUI from './NePPUIPackage';
+import { JSX, useEffect, useState } from "react";
+import { Routes, Route, Navigate, Outlet } from "react-router-dom";
+import { getAuthInfo } from "./API/auth";
+import Books from "./pages/Books";
+import NewBook from "./pages/NewBook";
+import EmailAuth from "./pages/EmailAuth";
+import LibraryAppDashboard from "./pages/LibraryAppDashboard";
 
+type AuthStatus = "loading" | "authed" | "guest";
 
+function RequireAuth({ children }: { children: JSX.Element }) {
+    const [status, setStatus] = useState<AuthStatus>("loading");
 
- function App() {
-  const [books , setBooks] = useState<any[]>([]);
+    useEffect(() => {
+        let isMounted = true;
+        getAuthInfo()
+            .then((user) => {
+                if (!isMounted) return;
+                setStatus(user ? "authed" : "guest");
+            })
+            .catch(() => {
+                if (!isMounted) return;
+                setStatus("guest");
+            });
+        return () => {
+            isMounted = false;
+        };
+    }, []);
 
-  useEffect(() =>{
-      const fetchData = async () =>{
-        const result = await API();
-        if (result){
-          setBooks(result);
-        }
-      }
-      fetchData();
-  },[])
+    if (status === "loading") {
+        return <div style={{ padding: 24, fontSize: 14 }}>Loading...</div>;
+    }
 
-    const handleToggle = (id: number) => {
-    setBooks((prevBooks) =>
-      prevBooks.map((book) =>
-        book.id === id ? { ...book, isAvailable: !book.isAvailable } : book
-      )
-    );
-  };
-  console.log(handleToggle);
+    if (status === "guest") {
+        return <Navigate to="/email-auth" replace />;
+    }
 
-
-   return (  
-    <div
-      style={{
-        padding: '20px',
-        display: 'flex',
-        gap: '100px',
-        flexWrap: 'nowrap', 
-      }}
-    >
-      {books.map((book) => (
-
-         <div key={book.id} onClick={() => handleToggle(book.id)}>
-        <NePPUI.NePPBookContentsUI
-          key={book.id} 
-          title={book.title}
-          imageSrc={book.cover_image_url} 
-          description={book.description}
-          isAvailable={book.isAvailable}
-        />
-        </div>
-        
-      ))}
-    </div>
-  );
+    return children;
 }
 
+function RequireAuthLayout() {
+    return (
+        <RequireAuth>
+            <Outlet />
+        </RequireAuth>
+    );
+}
 
-export default App
+function App() {
+    return (
+        <Routes>
+            <Route element={<RequireAuthLayout />}>
+                <Route path="/" element={<LibraryAppDashboard />} />
+                <Route path="/dashboard" element={<LibraryAppDashboard />} />
+                <Route path="/books" element={<Books />} />
+                <Route path="/books/new" element={<NewBook />} />
+            </Route>
+            <Route path="/email-auth" element={<EmailAuth />} />
+        </Routes>
+    );
+}
+
+export default App;

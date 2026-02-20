@@ -13,7 +13,7 @@ const firebaseConfig = {
   storageBucket: "nepp-librarymanager-9b192.firebasestorage.app",
   messagingSenderId: "293981600383",
   appId: "1:293981600383:web:eb9e33a4985d23c8ff5d4a",
-  measurementId: "G-50E2Y2J3JE"
+  measurementId: "G-50E2Y2J3JE",
 };
 
 // Initialize Firebase
