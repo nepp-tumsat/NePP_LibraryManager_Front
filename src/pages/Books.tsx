@@ -17,15 +17,17 @@ function Books() {
             if (result) {
                 if (
                     !import.meta.env.VITE_SUPABASE_URL ||
-                    !import.meta.env.VITE_SUPABASE_ANON_KEY
+                    !import.meta.env.VITE_SUPABASE_ANON_KEY ||
+                    !supabase
                 ) {
                     setBooks(result);
                     return;
                 }
 
+                const supabaseClient = supabase;
                 const withCoverUrls = result.map((book: any) => {
                     if (!book.cover_image_url) return book;
-                    const { data } = supabase.storage
+                    const { data } = supabaseClient.storage
                         .from(BUCKET_NAME)
                         .getPublicUrl(book.cover_image_url);
                     return {
